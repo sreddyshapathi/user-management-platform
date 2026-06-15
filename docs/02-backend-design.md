@@ -15,15 +15,16 @@ The purpose of the backend is to provide REST APIs for:
 
 # Technology Stack
 
-| Component   | Version |
-| ----------- | ------- |
-| Java        | 21      |
-| Spring Boot | 3.5.x   |
-| Maven       | 3.9.x   |
-| PostgreSQL  | 18.x    |
-| Hibernate   | JPA     |
-| Lombok      | Latest  |
-| Git         | Latest  |
+| Component   | Version  |
+| ----------- | -------- |
+| Java        | 21       |
+| Spring Boot | 3.5.x    |
+| Maven       | 3.9.x    |
+| PostgreSQL  | 18.x     |
+| Hibernate   | JPA      |
+| Lombok      | Latest   |
+| BCrypt      | Security |
+| Git         | Latest   |
 
 ---
 
@@ -35,38 +36,21 @@ The purpose of the backend is to provide REST APIs for:
 java -version
 ```
 
-Expected:
-
-```text
-openjdk version "21.x"
-```
-
----
-
 ## Verify Maven
 
 ```bash
 ./mvnw -version
 ```
 
-Expected:
-
-```text
-Apache Maven 3.9.x
-Java version: 21
-```
-
 ---
 
 # Project Creation
 
-Spring Initializr Configuration:
+Spring Initializr Configuration
 
 Project: Maven
 
 Language: Java
-
-Spring Boot: 3.5.x
 
 Packaging: Jar
 
@@ -74,34 +58,28 @@ Java: 21
 
 Group:
 
-```text
 com.sudhakar
-```
 
 Artifact:
 
-```text
 user-management
-```
 
 Package:
 
-```text
 com.sudhakar.user_management
-```
 
 ---
 
 # Dependencies
 
-Added Dependencies:
+Implemented Dependencies
 
 * Spring Web
 * Spring Data JPA
 * PostgreSQL Driver
 * Lombok
 * Validation
-* Spring Security (removed temporarily for development)
+* Spring Security Crypto (BCrypt)
 
 ---
 
@@ -110,52 +88,41 @@ Added Dependencies:
 ```text
 backend/
 
-├── pom.xml
-├── mvnw
-├── src
+├── src/main/java/com/sudhakar/user_management
 │
 ├── controller
+│   └── UserController.java
 │
 ├── service
+│   └── UserService.java
 │
 ├── repository
+│   └── UserRepository.java
 │
 ├── entity
+│   └── User.java
 │
 ├── dto
+│   ├── UserRegistrationRequest.java
+│   └── LoginRequest.java
 │
-├── exception
+├── config
+│   └── ApplicationConfig.java
 │
-└── config
+└── UserManagementApplication.java
 ```
 
 ---
 
-# PostgreSQL Setup
+# Database
 
-## Create Database
+Database:
 
-```sql
-CREATE DATABASE user_management;
-```
+user_management
 
-Verify:
+Table:
 
-```sql
-\l
-```
-
----
-
-# Database Schema
-
-File:
-
-```text
-database/scripts/schema.sql
-```
-
-Schema:
+users
 
 ```sql
 CREATE TABLE users (
@@ -170,23 +137,11 @@ CREATE TABLE users (
 );
 ```
 
-Apply Schema:
-
-```bash
-psql -d user_management -f database/scripts/schema.sql
-```
-
 ---
 
-# Spring Boot Configuration
+# Application Configuration
 
-File:
-
-```text
-src/main/resources/application.properties
-```
-
-Configuration:
+application.properties
 
 ```properties
 spring.application.name=user-management
@@ -208,21 +163,11 @@ server.port=8080
 
 Implemented:
 
-```text
 User.java
-```
 
 Purpose:
 
-Maps Java object to users database table.
-
-Annotations Used:
-
-* @Entity
-* @Table
-* @Id
-* @GeneratedValue
-* @Column
+Maps Java entity to users database table.
 
 ---
 
@@ -230,13 +175,12 @@ Annotations Used:
 
 Implemented:
 
-```text
-UserRegistrationRequest.java
-```
+* UserRegistrationRequest.java
+* LoginRequest.java
 
 Purpose:
 
-Accept registration payload from API requests.
+Transfer request payloads from API layer to service layer.
 
 ---
 
@@ -244,19 +188,14 @@ Accept registration payload from API requests.
 
 Implemented:
 
-```text
 UserRepository.java
-```
-
-Purpose:
-
-Database operations using Spring Data JPA.
 
 Methods:
 
 * existsByUsername()
 * existsByEmail()
 * existsByMobile()
+* findByUsername()
 
 ---
 
@@ -264,49 +203,57 @@ Methods:
 
 Implemented:
 
-```text
 UserService.java
-```
 
 Responsibilities:
 
-* Validate duplicates
-* Create user
-* Save user to database
-
-Validations:
-
-* Duplicate Username
-* Duplicate Email
-* Duplicate Mobile
+* User Registration
+* User Login
+* Duplicate Validation
+* Password Encryption
+* Authentication
 
 ---
 
-# Controller Layer
+# Security
 
-Implemented:
+Implemented BCrypt Password Encryption
+
+Configuration:
+
+ApplicationConfig.java
+
+Password Storage Example
+
+Before:
 
 ```text
-UserController.java
+Password123
 ```
 
-Endpoint:
-
-POST
+After BCrypt:
 
 ```text
-/api/users/register
+$2a$10$A6Z8Yn567Dp6rPSFbUexkOeNJco352ntam4inOJnc9vSjEFkwjZYq
 ```
 
-Purpose:
+Benefits:
 
-Accept registration requests and invoke service layer.
+* Passwords are not stored in plain text.
+* Industry-standard password hashing.
+* Secure authentication mechanism.
 
 ---
 
-# Registration API
+# Implemented APIs
 
-Request:
+## Register User
+
+Endpoint
+
+POST /api/users/register
+
+Request
 
 ```json
 {
@@ -319,77 +266,82 @@ Request:
 }
 ```
 
-Response:
+Response
 
 ```text
 User Registered Successfully
+```
+
+---
+
+## Login User
+
+Endpoint
+
+POST /api/users/login
+
+Request
+
+```json
+{
+  "username":"sudhakar",
+  "password":"Password123"
+}
+```
+
+Response
+
+```text
+Login Successful
 ```
 
 ---
 
 # Testing
 
-Application Startup:
+Application Startup
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-API Testing:
+Registration Testing
 
 ```bash
-curl -X POST http://localhost:8080/api/users/register \
--H "Content-Type: application/json" \
--d '{
-  "firstName":"Sudhakar",
-  "lastName":"Reddy",
-  "email":"sudhakar@gmail.com",
-  "mobile":"9876543210",
-  "username":"sudhakar",
-  "password":"Password123"
-}'
+curl -X POST http://localhost:8080/api/users/register
 ```
 
-Expected Output:
+Login Testing
 
-```text
-User Registered Successfully
+```bash
+curl -X POST http://localhost:8080/api/users/login
 ```
 
 ---
 
 # Database Verification
 
-Connect:
-
 ```bash
 psql -d user_management
 ```
 
-Verify:
+Verify User Data
 
 ```sql
 SELECT * FROM users;
 ```
 
-Result:
+Verify BCrypt Password
 
-```text
-id
-first_name
-last_name
-email
-mobile
-username
-password
-created_at
+```sql
+SELECT username,password FROM users;
 ```
 
 ---
 
 # Current Status
 
-Completed:
+Completed
 
 * Java Installation
 * Maven Setup
@@ -403,23 +355,47 @@ Completed:
 * Service Layer
 * Controller Layer
 * Registration API
+* Login API
+* BCrypt Password Encryption
 * PostgreSQL Persistence Testing
+* GitHub Repository Integration
 
 ---
 
 # Next Phase
 
-Pending:
+Pending
 
-* Login API
-* Password Encryption (BCrypt)
 * Forgot Password API
-* Validation Framework
-* Exception Handling
+* Request Validation
+* Global Exception Handling
 * Swagger Documentation
 * React Frontend
 * Dockerization
+* Docker Compose
 * Kubernetes Deployment
 * Helm Charts
 * AKS Deployment
-* Monitoring Integration
+* Prometheus
+* Grafana
+* CI/CD Pipeline
+
+---
+
+# Git Commit History
+
+Commit 1
+
+Initial backend project setup
+
+Commit 2
+
+Implemented user registration API
+
+Commit 3
+
+Implemented login API
+
+Commit 4
+
+Implemented BCrypt password encryption
