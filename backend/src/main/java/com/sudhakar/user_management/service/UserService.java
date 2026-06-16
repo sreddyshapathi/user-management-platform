@@ -2,6 +2,7 @@ package com.sudhakar.user_management.service;
 
 import com.sudhakar.user_management.dto.ForgotPasswordRequest;
 import com.sudhakar.user_management.dto.LoginRequest;
+import com.sudhakar.user_management.dto.UserProfileResponse;
 import com.sudhakar.user_management.dto.UserRegistrationRequest;
 import com.sudhakar.user_management.entity.User;
 import com.sudhakar.user_management.repository.UserRepository;
@@ -94,5 +95,24 @@ public class UserService {
         repository.save(user);
 
         return "Password Reset Successful";
+    }
+
+    public UserProfileResponse getProfile(String username) {
+
+        User user = repository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("User Not Found"));
+
+        UserProfileResponse response =
+                new UserProfileResponse();
+
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+        response.setMobile(user.getMobile());
+        response.setUsername(user.getUsername());
+        response.setCreatedAt(user.getCreatedAt());
+
+        return response;
     }
 }
