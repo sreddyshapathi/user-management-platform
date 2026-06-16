@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../services/api";
+import Navbar from "../components/Navbar";
 
 function Register() {
 
@@ -14,6 +15,7 @@ function Register() {
     });
 
     const handleChange = (e) => {
+
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -60,87 +62,130 @@ function Register() {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
+        <>
+            <Navbar />
 
-            <h1>User Management Platform</h1>
+            <div className="container mt-5">
 
-            <h2>User Registration</h2>
+                <div className="row justify-content-center">
 
-            <form onSubmit={handleSubmit}>
+                    <div className="col-md-8">
 
-                <input
-                    type="text"
-                    name="firstName"
-                    placeholder="First Name"
-                    value={form.firstName}
-                    onChange={handleChange}
-                />
+                        <div className="card shadow">
 
-                <br /><br />
+                            <div className="card-header bg-success text-white">
 
-                <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last Name"
-                    value={form.lastName}
-                    onChange={handleChange}
-                />
+                                <h3>User Registration</h3>
 
-                <br /><br />
+                            </div>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={handleChange}
-                />
+                            <div className="card-body">
 
-                <br /><br />
+                                <form onSubmit={handleSubmit}>
 
-                <input
-                    type="text"
-                    name="mobile"
-                    placeholder="Mobile"
-                    value={form.mobile}
-                    onChange={handleChange}
-                />
+                                    <div className="mb-3">
 
-                <br /><br />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="First Name"
+                                            name="firstName"
+                                            value={form.firstName}
+                                            onChange={handleChange}
+                                        />
 
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={handleChange}
-                />
+                                    </div>
 
-                <br /><br />
+                                    <div className="mb-3">
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Last Name"
+                                            name="lastName"
+                                            value={form.lastName}
+                                            onChange={handleChange}
+                                        />
 
-                <br /><br />
+                                    </div>
 
-                <button type="submit">
-                    Register
-                </button>
+                                    <div className="mb-3">
 
-            </form>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            placeholder="Email"
+                                            name="email"
+                                            value={form.email}
+                                            onChange={handleChange}
+                                        />
 
-            <br />
+                                    </div>
 
-            <Link to="/">
-                Already Have Account? Login
-            </Link>
+                                    <div className="mb-3">
 
-        </div>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Mobile"
+                                            name="mobile"
+                                            value={form.mobile}
+                                            onChange={handleChange}
+                                        />
+
+                                    </div>
+
+                                    <div className="mb-3">
+
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Username"
+                                            name="username"
+                                            value={form.username}
+                                            onChange={handleChange}
+                                        />
+
+                                    </div>
+
+                                    <div className="mb-3">
+
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            placeholder="Password"
+                                            name="password"
+                                            value={form.password}
+                                            onChange={handleChange}
+                                        />
+
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success"
+                                    >
+                                        Register
+                                    </button>
+
+                                </form>
+
+                                <hr />
+
+                                <Link to="/">
+                                    Already Have Account? Login
+                                </Link>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </>
     );
 }
 

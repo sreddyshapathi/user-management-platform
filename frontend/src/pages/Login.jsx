@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../services/api";
+import Navbar from "../components/Navbar";
 
 function Login() {
 
@@ -58,53 +59,90 @@ function Login() {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
+        <>
+            <Navbar />
 
-            <h1>User Management Platform</h1>
+            <div className="container mt-5">
 
-            <h2>User Login</h2>
+                <div className="row justify-content-center">
 
-            <form onSubmit={handleSubmit}>
+                    <div className="col-md-6">
 
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={form.username}
-                    onChange={handleChange}
-                />
+                        <div className="card shadow">
 
-                <br /><br />
+                            <div className="card-header bg-primary text-white">
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
-                    onChange={handleChange}
-                />
+                                <h3>User Login</h3>
 
-                <br /><br />
+                            </div>
 
-                <button type="submit">
-                    Login
-                </button>
+                            <div className="card-body">
 
-            </form>
+                                <form onSubmit={handleSubmit}>
 
-            <br />
+                                    <div className="mb-3">
 
-            <Link to="/register">
-                Register Here
-            </Link>
+                                        <label className="form-label">
+                                            Username
+                                        </label>
 
-            <br /><br />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            name="username"
+                                            value={form.username}
+                                            onChange={handleChange}
+                                        />
 
-            <Link to="/forgot-password">
-                Forgot Password
-            </Link>
+                                    </div>
 
-        </div>
+                                    <div className="mb-3">
+
+                                        <label className="form-label">
+                                            Password
+                                        </label>
+
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            name="password"
+                                            value={form.password}
+                                            onChange={handleChange}
+                                        />
+
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        Login
+                                    </button>
+
+                                </form>
+
+                                <hr />
+
+                                <Link to="/register">
+                                    Register Here
+                                </Link>
+
+                                <br />
+
+                                <Link to="/forgot-password">
+                                    Forgot Password
+                                </Link>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </>
     );
 }
 

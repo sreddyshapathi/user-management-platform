@@ -1,19 +1,64 @@
+import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+
 function Dashboard() {
 
+    const navigate = useNavigate();
+
+    const logout = () => {
+        navigate("/");
+    };
+
     return (
-        <div style={{ padding: "20px" }}>
 
-            <h1>Welcome Sudhakar</h1>
+        <>
+            <Navbar />
 
-            <hr />
+            <div className="container mt-5">
 
-            <h2>User Management Platform</h2>
+                <div className="card shadow">
 
-            <p>Spring Boot + React + PostgreSQL</p>
+                    <div className="card-header bg-primary text-white">
 
-            <p>Successfully Logged In</p>
+                        <h2>User Management Dashboard</h2>
 
-        </div>
+                    </div>
+
+                    <div className="card-body">
+
+                        <h3>Welcome Sudhakar</h3>
+
+                        <hr />
+
+                        <p>
+                            Frontend : React
+                        </p>
+
+                        <p>
+                            Backend : Spring Boot
+                        </p>
+
+                        <p>
+                            Database : PostgreSQL
+                        </p>
+
+                        <p>
+                            Environment : Local Development
+                        </p>
+
+                        <button
+                            className="btn btn-danger"
+                            onClick={logout}
+                        >
+                            Logout
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </>
     );
 }
 
