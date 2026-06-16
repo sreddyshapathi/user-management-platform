@@ -4,6 +4,7 @@ import com.sudhakar.user_management.dto.ForgotPasswordRequest;
 import com.sudhakar.user_management.dto.LoginRequest;
 import com.sudhakar.user_management.dto.UserRegistrationRequest;
 import com.sudhakar.user_management.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class UserController {
         this.service = service;
     }
 
+    @Operation(summary = "Register New User")
     @PostMapping("/register")
     public String register(
             @Valid @RequestBody UserRegistrationRequest request) {
@@ -24,6 +26,7 @@ public class UserController {
         return service.register(request);
     }
 
+    @Operation(summary = "User Login")
     @PostMapping("/login")
     public String login(
             @Valid @RequestBody LoginRequest request) {
@@ -31,6 +34,7 @@ public class UserController {
         return service.login(request);
     }
 
+    @Operation(summary = "Forgot Password")
     @PostMapping("/forgot-password")
     public String forgotPassword(
             @Valid @RequestBody ForgotPasswordRequest request) {
