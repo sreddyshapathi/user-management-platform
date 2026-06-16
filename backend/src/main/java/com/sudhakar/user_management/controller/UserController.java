@@ -1,5 +1,6 @@
 package com.sudhakar.user_management.controller;
 
+import com.sudhakar.user_management.dto.ForgotPasswordRequest;
 import com.sudhakar.user_management.dto.LoginRequest;
 import com.sudhakar.user_management.dto.UserRegistrationRequest;
 import com.sudhakar.user_management.service.UserService;
@@ -16,12 +17,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserRegistrationRequest request) {
+    public String register(
+            @RequestBody UserRegistrationRequest request) {
+
         return service.register(request);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public String login(
+            @RequestBody LoginRequest request) {
+
         return service.login(request);
+    }
+
+    @PostMapping("/forgot-password")
+    public String forgotPassword(
+            @RequestBody ForgotPasswordRequest request) {
+
+        return service.forgotPassword(request);
     }
 }

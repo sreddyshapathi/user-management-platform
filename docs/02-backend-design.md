@@ -360,6 +360,36 @@ Completed
 * PostgreSQL Persistence Testing
 * GitHub Repository Integration
 
+## Forgot Password API
+
+Endpoint
+
+POST /api/users/forgot-password
+
+Request
+
+```json
+{
+  "username":"sudhakar",
+  "email":"sudhakar@gmail.com",
+  "newPassword":"NewPassword123"
+}
+```
+
+Response
+
+```text
+Password Reset Successful
+```
+
+Purpose
+
+Allows a registered user to reset their password by validating username and email address.
+
+Security
+
+The new password is encrypted using BCrypt before being stored in PostgreSQL.
+
 ---
 
 # Next Phase
