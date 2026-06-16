@@ -4,6 +4,7 @@ import com.sudhakar.user_management.dto.ForgotPasswordRequest;
 import com.sudhakar.user_management.dto.LoginRequest;
 import com.sudhakar.user_management.dto.UserRegistrationRequest;
 import com.sudhakar.user_management.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,21 +19,21 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(
-            @RequestBody UserRegistrationRequest request) {
+            @Valid @RequestBody UserRegistrationRequest request) {
 
         return service.register(request);
     }
 
     @PostMapping("/login")
     public String login(
-            @RequestBody LoginRequest request) {
+            @Valid @RequestBody LoginRequest request) {
 
         return service.login(request);
     }
 
     @PostMapping("/forgot-password")
     public String forgotPassword(
-            @RequestBody ForgotPasswordRequest request) {
+            @Valid @RequestBody ForgotPasswordRequest request) {
 
         return service.forgotPassword(request);
     }
