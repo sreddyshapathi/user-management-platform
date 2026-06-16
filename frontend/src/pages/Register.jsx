@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import API from "../services/api";
 
 function Register() {
@@ -20,6 +21,7 @@ function Register() {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         try {
@@ -42,14 +44,18 @@ function Register() {
 
         } catch (error) {
 
-    console.log(error);
+            if (error.response) {
 
-    if (error.response) {
-        alert(JSON.stringify(error.response.data));
-    } else {
-        alert(error.message);
-    }
+                alert(
+                    JSON.stringify(
+                        error.response.data
+                    )
+                );
 
+            } else {
+
+                alert("Registration Failed");
+            }
         }
     };
 
@@ -127,6 +133,12 @@ function Register() {
                 </button>
 
             </form>
+
+            <br />
+
+            <Link to="/">
+                Already Have Account? Login
+            </Link>
 
         </div>
     );

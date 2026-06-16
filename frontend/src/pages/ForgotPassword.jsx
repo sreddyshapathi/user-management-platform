@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import API from "../services/api";
 
-function Login() {
-
-    const navigate = useNavigate();
+function ForgotPassword() {
 
     const [form, setForm] = useState({
         username: "",
-        password: ""
+        email: "",
+        newPassword: ""
     });
 
     const handleChange = (e) => {
@@ -25,34 +24,18 @@ function Login() {
         try {
 
             const response = await API.post(
-                "/login",
+                "/forgot-password",
                 form
             );
 
-            if (response.data === "Login Successful") {
-
-                alert("Login Successful");
-
-                navigate("/dashboard");
-
-            } else {
-
-                alert(response.data);
-            }
+            alert(response.data);
 
         } catch (error) {
 
             if (error.response) {
-
-                alert(
-                    JSON.stringify(
-                        error.response.data
-                    )
-                );
-
+                alert(JSON.stringify(error.response.data));
             } else {
-
-                alert("Login Failed");
+                alert("Password Reset Failed");
             }
         }
     };
@@ -62,7 +45,7 @@ function Login() {
 
             <h1>User Management Platform</h1>
 
-            <h2>User Login</h2>
+            <h2>Forgot Password</h2>
 
             <form onSubmit={handleSubmit}>
 
@@ -77,35 +60,39 @@ function Login() {
                 <br /><br />
 
                 <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleChange}
+                />
+
+                <br /><br />
+
+                <input
                     type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={form.password}
+                    name="newPassword"
+                    placeholder="New Password"
+                    value={form.newPassword}
                     onChange={handleChange}
                 />
 
                 <br /><br />
 
                 <button type="submit">
-                    Login
+                    Reset Password
                 </button>
 
             </form>
 
             <br />
 
-            <Link to="/register">
-                Register Here
-            </Link>
-
-            <br /><br />
-
-            <Link to="/forgot-password">
-                Forgot Password
+            <Link to="/">
+                Back To Login
             </Link>
 
         </div>
     );
 }
 
-export default Login;
+export default ForgotPassword;
