@@ -13,6 +13,7 @@ function Login() {
     });
 
     const handleChange = (e) => {
+
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -31,6 +32,11 @@ function Login() {
             );
 
             if (response.data === "Login Successful") {
+
+                localStorage.setItem(
+                    "username",
+                    form.username
+                );
 
                 alert("Login Successful");
 
@@ -92,6 +98,7 @@ function Login() {
                                             name="username"
                                             value={form.username}
                                             onChange={handleChange}
+                                            required
                                         />
 
                                     </div>
@@ -108,6 +115,7 @@ function Login() {
                                             name="password"
                                             value={form.password}
                                             onChange={handleChange}
+                                            required
                                         />
 
                                     </div>

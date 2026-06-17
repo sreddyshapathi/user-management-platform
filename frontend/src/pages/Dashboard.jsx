@@ -11,6 +11,18 @@ function Dashboard() {
 
     useEffect(() => {
 
+        const username =
+            localStorage.getItem(
+                "username"
+            );
+
+        if (!username) {
+
+            navigate("/");
+
+            return;
+        }
+
         loadProfile();
 
     }, []);
@@ -19,28 +31,49 @@ function Dashboard() {
 
         try {
 
-            const response = await API.get(
-                "/profile/sudhakar"
-            );
+            const username =
+                localStorage.getItem(
+                    "username"
+                );
 
-            setProfile(response.data);
+            const response =
+                await API.get(
+                    `/profile/${username}`
+                );
+
+            setProfile(
+                response.data
+            );
 
         } catch (error) {
 
             console.error(error);
 
-            alert("Failed to load profile");
+            alert(
+                "Failed to load profile"
+            );
         }
     };
 
     const logout = () => {
+
+        localStorage.removeItem(
+            "username"
+        );
 
         navigate("/");
     };
 
     if (!profile) {
 
-        return <h3>Loading...</h3>;
+        return (
+            <>
+                <Navbar />
+                <div className="container mt-5">
+                    <h3>Loading...</h3>
+                </div>
+            </>
+        );
     }
 
     return (
@@ -54,7 +87,9 @@ function Dashboard() {
 
                     <div className="card-header bg-primary text-white">
 
-                        <h2>User Management Dashboard</h2>
+                        <h2>
+                            User Management Dashboard
+                        </h2>
 
                     </div>
 
@@ -67,32 +102,44 @@ function Dashboard() {
                         <hr />
 
                         <p>
-                            <strong>First Name:</strong>{" "}
+                            <strong>
+                                First Name:
+                            </strong>{" "}
                             {profile.firstName}
                         </p>
 
                         <p>
-                            <strong>Last Name:</strong>{" "}
+                            <strong>
+                                Last Name:
+                            </strong>{" "}
                             {profile.lastName}
                         </p>
 
                         <p>
-                            <strong>Email:</strong>{" "}
+                            <strong>
+                                Email:
+                            </strong>{" "}
                             {profile.email}
                         </p>
 
                         <p>
-                            <strong>Mobile:</strong>{" "}
+                            <strong>
+                                Mobile:
+                            </strong>{" "}
                             {profile.mobile}
                         </p>
 
                         <p>
-                            <strong>Username:</strong>{" "}
+                            <strong>
+                                Username:
+                            </strong>{" "}
                             {profile.username}
                         </p>
 
                         <p>
-                            <strong>Created At:</strong>{" "}
+                            <strong>
+                                Created At:
+                            </strong>{" "}
                             {profile.createdAt}
                         </p>
 
@@ -108,6 +155,7 @@ function Dashboard() {
                 </div>
 
             </div>
+
         </>
     );
 }
