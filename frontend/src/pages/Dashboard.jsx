@@ -1,13 +1,47 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import API from "../services/api";
 
 function Dashboard() {
 
     const navigate = useNavigate();
 
+    const [profile, setProfile] = useState(null);
+
+    useEffect(() => {
+
+        loadProfile();
+
+    }, []);
+
+    const loadProfile = async () => {
+
+        try {
+
+            const response = await API.get(
+                "/profile/sudhakar"
+            );
+
+            setProfile(response.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Failed to load profile");
+        }
+    };
+
     const logout = () => {
+
         navigate("/");
     };
+
+    if (!profile) {
+
+        return <h3>Loading...</h3>;
+    }
 
     return (
 
@@ -26,24 +60,40 @@ function Dashboard() {
 
                     <div className="card-body">
 
-                        <h3>Welcome Sudhakar</h3>
+                        <h3>
+                            Welcome {profile.firstName}
+                        </h3>
 
                         <hr />
 
                         <p>
-                            Frontend : React
+                            <strong>First Name:</strong>{" "}
+                            {profile.firstName}
                         </p>
 
                         <p>
-                            Backend : Spring Boot
+                            <strong>Last Name:</strong>{" "}
+                            {profile.lastName}
                         </p>
 
                         <p>
-                            Database : PostgreSQL
+                            <strong>Email:</strong>{" "}
+                            {profile.email}
                         </p>
 
                         <p>
-                            Environment : Local Development
+                            <strong>Mobile:</strong>{" "}
+                            {profile.mobile}
+                        </p>
+
+                        <p>
+                            <strong>Username:</strong>{" "}
+                            {profile.username}
+                        </p>
+
+                        <p>
+                            <strong>Created At:</strong>{" "}
+                            {profile.createdAt}
                         </p>
 
                         <button
