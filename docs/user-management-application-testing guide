@@ -1,0 +1,388 @@
+# User Management Application - Testing Guide
+
+## Application URLs
+
+### Backend
+
+http://localhost:8080
+
+### Swagger
+
+http://localhost:8080/swagger-ui/index.html
+
+### Frontend
+
+http://localhost:5173
+
+---
+
+# Step 1 - Start Backend
+
+Navigate to backend folder:
+
+```bash
+cd backend
+./mvnw spring-boot:run
+```
+
+Expected:
+
+```text
+Started UserManagementApplication
+Tomcat started on port 8080
+```
+
+---
+
+# Step 2 - Start Frontend
+
+Open new terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Expected:
+
+```text
+VITE v...
+Local: http://localhost:5173
+```
+
+---
+
+# Step 3 - Test Registration from Frontend
+
+Open:
+
+```text
+http://localhost:5173/register
+```
+
+Enter:
+
+```text
+First Name : Sudhakar
+Last Name  : Reddy
+Email      : sudhakar@test.com
+Mobile     : 9876543210
+Username   : Sreddyshapathi22
+Password   : Password123
+```
+
+Click:
+
+```text
+Register
+```
+
+Expected:
+
+```text
+User Registered Successfully
+```
+
+---
+
+# Step 4 - Verify User in Database
+
+Connect PostgreSQL:
+
+```bash
+psql -U postgres
+```
+
+Select Database:
+
+```sql
+\c user_management
+```
+
+Check Users:
+
+```sql
+select id,
+       first_name,
+       last_name,
+       username,
+       email,
+       mobile,
+       created_at
+from users;
+```
+
+Expected:
+
+```text
+Sudhakar
+Sreddyshapathi22
+sudhakar@test.com
+9876543210
+```
+
+User should appear in database.
+
+---
+
+# Step 5 - Test Login from Frontend
+
+Open:
+
+```text
+http://localhost:5173
+```
+
+Enter:
+
+```text
+Username : Sreddyshapathi22
+Password : Password123
+```
+
+Click:
+
+```text
+Login
+```
+
+Expected:
+
+```text
+Login Successful
+```
+
+Dashboard page should open.
+
+---
+
+# Step 6 - Test Dashboard
+
+Expected Dashboard Details:
+
+```text
+Welcome Sudhakar
+
+Frontend : React
+Backend  : Spring Boot
+Database : PostgreSQL
+Environment : Local Development
+```
+
+Verify Logout button exists.
+
+---
+
+# Step 7 - Test Logout
+
+Click:
+
+```text
+Logout
+```
+
+Expected:
+
+```text
+Navigate back to Login Page
+```
+
+---
+
+# Step 8 - Test Forgot Password
+
+Open:
+
+```text
+http://localhost:5173/forgot-password
+```
+
+Enter:
+
+```text
+Username     : Sreddyshapathi22
+Email        : sudhakar@test.com
+New Password : Password456
+```
+
+Click:
+
+```text
+Reset Password
+```
+
+Expected:
+
+```text
+Password Reset Successful
+```
+
+---
+
+# Step 9 - Verify New Password
+
+Login again:
+
+```text
+Username : Sreddyshapathi22
+Password : Password456
+```
+
+Expected:
+
+```text
+Login Successful
+```
+
+---
+
+# Step 10 - Test APIs in Swagger
+
+Open:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+Verify:
+
+## Register API
+
+POST
+
+```text
+/api/users/register
+```
+
+Expected:
+
+```text
+User Registered Successfully
+```
+
+---
+
+## Login API
+
+POST
+
+```text
+/api/users/login
+```
+
+Expected:
+
+```text
+Login Successful
+```
+
+---
+
+## Forgot Password API
+
+POST
+
+```text
+/api/users/forgot-password
+```
+
+Expected:
+
+```text
+Password Reset Successful
+```
+
+---
+
+## Profile API
+
+GET
+
+```text
+/api/users/profile/Sreddyshapathi22
+```
+
+Expected JSON:
+
+```json
+{
+  "firstName": "Sudhakar",
+  "lastName": "Reddy",
+  "email": "sudhakar@test.com",
+  "mobile": "9876543210",
+  "username": "Sreddyshapathi22"
+}
+```
+
+---
+
+# Database Verification Queries
+
+## View All Users
+
+```sql
+select * from users;
+```
+
+## Count Users
+
+```sql
+select count(*) from users;
+```
+
+## Search Specific User
+
+```sql
+select *
+from users
+where username='Sreddyshapathi22';
+```
+
+## Check Password Stored
+
+```sql
+select username,password
+from users;
+```
+
+Expected:
+
+Password should appear encrypted (BCrypt hash).
+
+Example:
+
+```text
+$2a$10$...
+```
+
+NOT plain text.
+
+---
+
+# Final Project Verification
+
+Backend
+✓ Registration API
+✓ Login API
+✓ Forgot Password API
+✓ Profile API
+✓ PostgreSQL
+✓ Swagger
+
+Frontend
+✓ Registration Page
+✓ Login Page
+✓ Forgot Password Page
+✓ Dashboard
+✓ Logout
+
+Database
+✓ User Saved
+✓ Password Encrypted
+✓ Profile Retrieved
+
+Project Status:
+COMPLETED SUCCESSFULLY
+
+
+
