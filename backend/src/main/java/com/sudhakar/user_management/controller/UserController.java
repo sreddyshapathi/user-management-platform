@@ -13,41 +13,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService service;
+private final UserService service;
 
-    public UserController(UserService service) {
-        this.service = service;
-    }
+public UserController(UserService service) {
+    this.service = service;
+}
 
-    @Operation(summary = "Register New User")
-    @PostMapping("/register")
-    public String register(
-            @Valid @RequestBody UserRegistrationRequest request) {
+@Operation(summary = "Register New User")
+@PostMapping("/register")
+public String register(
+        @Valid @RequestBody UserRegistrationRequest request) {
 
-        return service.register(request);
-    }
+    return service.register(request);
+}
 
-    @Operation(summary = "User Login")
-    @PostMapping("/login")
-    public String login(
-            @Valid @RequestBody LoginRequest request) {
+@Operation(summary = "User Login")
+@PostMapping("/login")
+public String login(
+        @Valid @RequestBody LoginRequest request) {
 
-        return service.login(request);
-    }
+    return service.login(request);
+}
 
-    @Operation(summary = "Forgot Password")
-    @PostMapping("/forgot-password")
-    public String forgotPassword(
-            @Valid @RequestBody ForgotPasswordRequest request) {
+@Operation(summary = "Forgot Password")
+@PostMapping("/forgot-password")
+public String forgotPassword(
+        @Valid @RequestBody ForgotPasswordRequest request) {
 
-        return service.forgotPassword(request);
-    }
+    return service.forgotPassword(request);
+}
 
-    @Operation(summary = "Get User Profile")
-    @GetMapping("/profile/{username}")
-    public UserProfileResponse getProfile(
-            @PathVariable String username) {
+@Operation(summary = "Get User Profile")
+@GetMapping("/profile/{username}")
+public UserProfileResponse getProfile(
+        @PathVariable String username) {
 
-        return service.getProfile(username);
-    }
+    return service.getProfile(username);
+}
+
 }
