@@ -80,12 +80,4 @@ Monitoring:
 
 ---
 
-## Future Enhancements
 
-* JWT Authentication
-* Role Based Access Control
-* Email Verification
-* Password Reset
-* Key Vault Integration
-* Workload Identity
-* CI/CD Automation
