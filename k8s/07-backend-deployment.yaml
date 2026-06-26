@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+  namespace: user-management
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+
+      containers:
+
+        - name: backend
+
+          image: user-management-backend:v1
+
+          imagePullPolicy: Never
+
+          ports:
+
+            - containerPort: 8080
+
+          env:
+
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service:5432/user_management
+
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: user-management-config
+                  key: SPRING_DATASOURCE_USERNAME
+
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: SPRING_DATASOURCE_PASSWORD
+
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: user-management-config
+                  key: SPRING_JPA_HIBERNATE_DDL_AUTO
+
+          resources:
+
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+
+          # livenessProbe:
+
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 20
+
+          # readinessProbe:
+
+          #   httpGet:
+          #     path: /actuator/health
+          #     port: 8080
+
+          #   initialDelaySeconds: 30
+          #   periodSeconds: 10
