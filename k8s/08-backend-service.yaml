@@ -6,14 +6,12 @@ metadata:
   namespace: user-management
 
 spec:
-
   type: ClusterIP
 
   selector:
     app: backend
 
   ports:
-
     - protocol: TCP
       port: 8080
       targetPort: 8080
